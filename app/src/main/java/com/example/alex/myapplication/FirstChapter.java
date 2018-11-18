@@ -1,16 +1,19 @@
 package com.example.alex.myapplication;
 
+import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class FirstChapter extends AppCompatActivity {
     private Button mTrueButton;
     private Button mFalseButton;
-    private Button mNextButton;
+    private ImageButton mNextButton;
+    private ImageButton mPreviousButton;
     private TextView mQuestionTextView;
 
     private Question [] mQuestionsBank = new Question[]{        // Вызов конструктор  Question
@@ -25,27 +28,44 @@ public class FirstChapter extends AppCompatActivity {
             private void updateQuestion (){
                 int question = mQuestionsBank [mCurrentIndex].getTextResId();
                 mQuestionTextView.setText(question);
+                mCurrentIndex = (mCurrentIndex +1) % mQuestionsBank.length;
             }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.first_chapter);
-
         mQuestionTextView = (TextView)findViewById(R.id.question_text_view);
-
-        mNextButton = (Button)findViewById(R.id.next_button);
-        mNextButton.setOnClickListener(new View.OnClickListener() {
+        mQuestionTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCurrentIndex = (mCurrentIndex +1) % mQuestionsBank.length;
-                int question = mQuestionsBank[mCurrentIndex].getTextResId();
-                mQuestionTextView.setText(question);
                 updateQuestion();
             }
         });
-        updateQuestion();
+    updateQuestion();
     }
+
+    public void next_button (View view){
+        mNextButton = (ImageButton) findViewById(R.id.next_button);
+        mNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateQuestion();
+            }
+        });
+    }
+    public void previous_button(View view){
+                mPreviousButton = (ImageButton)findViewById(R.id.previous_button);
+                mPreviousButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int question = mQuestionsBank [mCurrentIndex].getTextResId();
+                        mQuestionTextView.setText(question);
+                        mCurrentIndex = (mCurrentIndex -1) % mQuestionsBank.length;
+                    }
+                });
+    }
+
 
     private void checkAnswer (boolean userPressedTrue){
                 boolean answerIsTrue = mQuestionsBank[mCurrentIndex].isAnswerTrue();
