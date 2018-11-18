@@ -6,5 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="correct_toast">Correct !</string>
     <string name="incorrect_toast">Incorrect!</string>
+    <string name="first_chapter">First chapter</string>
 
 </resources>
