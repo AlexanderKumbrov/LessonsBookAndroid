@@ -3,6 +3,7 @@ package com.example.alex.myapplication;
 import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -15,6 +16,8 @@ public class FirstChapter extends AppCompatActivity {
     private ImageButton mNextButton;
     private ImageButton mPreviousButton;
     private TextView mQuestionTextView;
+    private static final String TAG ="FirstChapter";
+    private static final String KEY_INDEX = "index";
 
     private Question [] mQuestionsBank = new Question[]{        // Вызов конструктор  Question
             new Question(R.string.question_oceans ,true),
@@ -32,28 +35,57 @@ public class FirstChapter extends AppCompatActivity {
             }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG , "onCreate(Bundle) called");
         setContentView(R.layout.first_chapter);
         mQuestionTextView = (TextView)findViewById(R.id.question_text_view);
+
         mQuestionTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateQuestion();
             }
         });
+        if (savedInstanceState != null){
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX , 0);
+        }
     updateQuestion();
+
     }
 
-    public void next_button (View view){
-        mNextButton = (ImageButton) findViewById(R.id.next_button);
-        mNextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateQuestion();
-            }
-        });
+    //Переопределение onSaveInstanceState для записи текущего вопроса
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        Log.i(TAG , "onSaveInstanceState");
+        savedInstanceState.putInt(KEY_INDEX , mCurrentIndex);
     }
+
+
+    @Override
+    public void onStart(){
+                super.onStart();
+                Log.d(TAG , "onStarted () called");
+    }
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.d(TAG , "onPause () called");
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.d(TAG , "onResume () called");
+    }
+    @Override
+    public void onStop(){
+        super.onStop();
+        Log.d(TAG , "onStop () called");
+    }
+
+
+
     public void previous_button(View view){
                 mPreviousButton = (ImageButton)findViewById(R.id.previous_button);
                 mPreviousButton.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +98,15 @@ public class FirstChapter extends AppCompatActivity {
                 });
     }
 
+    public void next_button (View view){
+        mNextButton = (ImageButton) findViewById(R.id.next_button);
+        mNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateQuestion();
+            }
+        });
+    }
 
     private void checkAnswer (boolean userPressedTrue){
                 boolean answerIsTrue = mQuestionsBank[mCurrentIndex].isAnswerTrue();
@@ -98,4 +139,10 @@ public class FirstChapter extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.d(TAG , "onDestroy () called");
+    }
+
 }
