@@ -1,6 +1,7 @@
 package com.example.alex.myapplication;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,8 @@ public class FirstChapter extends AppCompatActivity {
     private static final String TAG ="FirstChapter";
     private static final String KEY_INDEX = "index";
     private Button mCheatButton;
+    private static final int REQUEST_CODE_CHEAT = 0;
+    private boolean mIsCheater;
 
     private Question [] mQuestionsBank = new Question[]{        // Вызов конструктор  Question
             new Question(R.string.question_oceans ,true),
@@ -40,7 +43,7 @@ public class FirstChapter extends AppCompatActivity {
         setContentView(R.layout.first_chapter);
         Log.d(TAG , "onCreate(Bundle) called");
         mQuestionTextView = (TextView)findViewById(R.id.question_text_view);
-        int question =mQuestionsBank[mCurrentIndex].getTextResId();
+        int question = mQuestionsBank[mCurrentIndex].getTextResId();
         mQuestionTextView.setText(question);
 
         if (savedInstanceState != null){
@@ -48,6 +51,18 @@ public class FirstChapter extends AppCompatActivity {
         }
         updateQuestionNext();
         updateQuestionPrev();
+    }
+    @Override
+    protected void onActivityResult(int requestCode , int resultCode , Intent data){
+        if (resultCode != Activity.RESULT_OK){
+            return;
+        }
+        if (requestCode == REQUEST_CODE_CHEAT){
+            if (data == null){
+                return;
+            }
+            mIsCheater = CheatActivity.wasAnswerShown(data);
+        }
     }
 
     public void cheat(View view){
@@ -57,7 +72,7 @@ public class FirstChapter extends AppCompatActivity {
             public void onClick(View v) {
                boolean answerIsTrue = mQuestionsBank [mCurrentIndex].isAnswerTrue();
                Intent intent = CheatActivity.newIntent(FirstChapter.this , answerIsTrue);
-                startActivity(intent);
+               startActivityForResult(intent , REQUEST_CODE_CHEAT);
             }
         });
         updateQuestionPrev();
@@ -84,21 +99,26 @@ public class FirstChapter extends AppCompatActivity {
     public void next_button (View view){
         mNextButton = (ImageButton) findViewById(R.id.next_button);
         mCurrentIndex = (mCurrentIndex +1) % mQuestionsBank.length;
+        mIsCheater =false;
         updateQuestionNext();
     }
 
-    private void checkAnswer (boolean userPressedTrue){
-                boolean answerIsTrue = mQuestionsBank[mCurrentIndex].isAnswerTrue();
-                int messageResId = 0;
+    private void checkAnswer (boolean userPressedTrue) {
+        boolean answerIsTrue = mQuestionsBank[mCurrentIndex].isAnswerTrue();
+        int messageResId = 0;
+        if (mIsCheater) {
+            messageResId = R.string.judgment_toast;
+        } else {
 
-                if (userPressedTrue == answerIsTrue){
-                    messageResId = R.string.correct_toast;
-                }
-                else {
-                    messageResId = R.string.incorrect_toast;
-                }
-                Toast.makeText(this,messageResId ,Toast.LENGTH_SHORT).show();
-    }
+            if (userPressedTrue == answerIsTrue) {
+                messageResId = R.string.correct_toast;
+            } else {
+                messageResId = R.string.incorrect_toast;
+            }
+        }
+            Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
+        }
+
 
     public void True (View view){
         mTrueButton = (Button)findViewById(R.id.true_button);
