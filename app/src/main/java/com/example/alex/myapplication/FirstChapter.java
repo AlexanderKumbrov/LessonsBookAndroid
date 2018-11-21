@@ -1,6 +1,8 @@
 package com.example.alex.myapplication;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +21,7 @@ public class FirstChapter extends AppCompatActivity {
     private TextView mQuestionTextView;
     private static final String TAG ="FirstChapter";
     private static final String KEY_INDEX = "index";
+    private Button mCheatButton;
 
     private Question [] mQuestionsBank = new Question[]{        // Вызов конструктор  Question
             new Question(R.string.question_oceans ,true),
@@ -44,6 +47,19 @@ public class FirstChapter extends AppCompatActivity {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX , 0);
         }
         updateQuestionNext();
+        updateQuestionPrev();
+    }
+
+    public void cheat(View view){
+        mCheatButton = (Button)findViewById(R.id.cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               boolean answerIsTrue = mQuestionsBank [mCurrentIndex].isAnswerTrue();
+               Intent intent = CheatActivity.newIntent(FirstChapter.this , answerIsTrue);
+                startActivity(intent);
+            }
+        });
         updateQuestionPrev();
     }
 
