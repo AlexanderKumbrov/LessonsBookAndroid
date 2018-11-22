@@ -52,12 +52,19 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
         <Button
             android:id="@+id/cheat_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cheat_button"
             android:onClick="cheat"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/api_level"/>
     </LinearLayout>
 </LinearLayout>

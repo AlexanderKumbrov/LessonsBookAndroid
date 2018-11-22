@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ public class FirstChapter extends AppCompatActivity {
     private Button mCheatButton;
     private static final int REQUEST_CODE_CHEAT = 0;
     private boolean mIsCheater;
+    private TextView apiLevel ;
 
     private Question [] mQuestionsBank = new Question[]{        // Вызов конструктор  Question
             new Question(R.string.question_oceans ,true),
@@ -45,6 +47,10 @@ public class FirstChapter extends AppCompatActivity {
         mQuestionTextView = (TextView)findViewById(R.id.question_text_view);
         int question = mQuestionsBank[mCurrentIndex].getTextResId();
         mQuestionTextView.setText(question);
+
+
+        apiLevel = (TextView)findViewById(R.id.api_level);
+        apiLevel.setText(Build.VERSION.SDK+" API Level");
 
         if (savedInstanceState != null){
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX , 0);
