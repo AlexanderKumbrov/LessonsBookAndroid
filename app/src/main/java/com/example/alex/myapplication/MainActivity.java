@@ -16,4 +16,8 @@ public class MainActivity extends AppCompatActivity {
         Intent firstChapter = new Intent(this , FirstChapter.class);
         startActivity(firstChapter);
     }
+    public void criminal(View view){
+        Intent criminal = new Intent(this , CrimeActivity.class);
+        startActivity(criminal);
+    }
 }

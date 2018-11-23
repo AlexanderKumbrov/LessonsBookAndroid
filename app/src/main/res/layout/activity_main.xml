@@ -3,12 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <Button android:text="@string/first_chapter"
+    <Button android:text="@string/geo_quiz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:textAllCaps="false"
         android:textAlignment="center"
         android:onClick="firstChapter"/>
+
+    <Button android:text="@string/criminal_intent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textAllCaps="false"
+        android:textAlignment="center"
+        android:onClick="criminal"/>
 
 </LinearLayout>

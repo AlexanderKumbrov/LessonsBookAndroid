@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".FirstChapter" />
-        <activity android:name=".CheatActivity"></activity>
+        <activity android:name=".CheatActivity" />
+        <activity android:name=".CrimeActivity"></activity>
     </application>
 
 </manifest>
