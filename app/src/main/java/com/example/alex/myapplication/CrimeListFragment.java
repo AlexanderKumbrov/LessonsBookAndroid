@@ -1,0 +1,7 @@
+package com.example.alex.myapplication;
+
+import android.support.v4.app.Fragment;
+
+public class CrimeListFragment extends Fragment {
+
+}
