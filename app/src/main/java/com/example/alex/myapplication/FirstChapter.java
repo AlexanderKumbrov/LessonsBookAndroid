@@ -26,6 +26,7 @@ public class FirstChapter extends AppCompatActivity {
     private Button mCheatButton;
     private static final int REQUEST_CODE_CHEAT = 0;
     private boolean mIsCheater;
+    private static final String KEY_CHEAT="cheat";
     private TextView apiLevel ;
 
     private Question [] mQuestionsBank = new Question[]{        // Вызов конструктор  Question
@@ -47,16 +48,15 @@ public class FirstChapter extends AppCompatActivity {
         mQuestionTextView = (TextView)findViewById(R.id.question_text_view);
         int question = mQuestionsBank[mCurrentIndex].getTextResId();
         mQuestionTextView.setText(question);
-
-
         apiLevel = (TextView)findViewById(R.id.api_level);
-        apiLevel.setText(Build.VERSION.SDK+" API Level");
 
         if (savedInstanceState != null){
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX , 0);
+            mIsCheater = savedInstanceState.getBoolean(KEY_CHEAT ,false );
         }
         updateQuestionNext();
         updateQuestionPrev();
+        mIsCheater = false;
     }
     @Override
     protected void onActivityResult(int requestCode , int resultCode , Intent data){
@@ -176,5 +176,6 @@ public class FirstChapter extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG , "onSaveInstanceState");
         savedInstanceState.putInt(KEY_INDEX , mCurrentIndex);
+        savedInstanceState.putBoolean(KEY_CHEAT , mIsCheater);
     }
-}
+    }
