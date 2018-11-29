@@ -46,7 +46,7 @@ mCrime.setTitle(c.toString());
         });
 
         mDateButton = (Button)v.findViewById(R.id.crime_date);
-        String data = DateFormat.format("EEEE , MMM d , yyyy" ,mCrime.getmDate()).toString();
+        String data = DateFormat.format("EEEE , MMM d , yyyy" ,mCrime.getDate()).toString();
         mDateButton.setText(data);
         mDateButton.setEnabled(false);
 
@@ -54,7 +54,7 @@ mCrime.setTitle(c.toString());
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mCrime.setmSolved(isChecked);
+                mCrime.setSolved(isChecked);
             }
         });
 

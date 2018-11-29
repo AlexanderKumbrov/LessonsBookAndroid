@@ -17,8 +17,10 @@
         </activity>
         <activity android:name=".FirstChapter" />
         <activity android:name=".CheatActivity" />
-        <activity android:name=".CrimeListActivity" />
-        <activity android:name=".CrimeActivity"></activity>
+        <activity android:name=".CrimeActivity"/>
+        <activity android:name=".CrimeListActivity">
+
+        </activity>
     </application>
 
 </manifest>
