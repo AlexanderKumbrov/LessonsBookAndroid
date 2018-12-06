@@ -13,21 +13,37 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.text.format.DateFormat;
 
+import java.util.UUID;
+
 public class CrimeFragment extends Fragment {
+    private static final String ARG_CRIME_ID = "crime_id";
     private Crime mCrime ;
     private EditText mTitleField;
     private Button mDateButton ;
     private CheckBox mSolvedCheckBox ;
 
+    public static CrimeFragment newInstance(UUID crimeId){
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_CRIME_ID ,crimeId);           //CrimeFragment метод newInstance(UUID), который получает UUID,
+                                                               //создает пакет аргументов, создает экземпляр фрагмента, а затем присоединяет аргументы к фрагменту
+        CrimeFragment fragment = new CrimeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstance){
-        super.onCreate(savedInstance);
-        mCrime = new Crime();
+        super.onCreate(savedInstance);                                                                  // Когда фрагменту требуется получить доступ к его аргументам, он вызывает метод
+                                                                                                         //getArguments() класса Fragment, а затем один из get-методов Bundle для конкретного типа.
+        UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
+        mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
     @Override
     public View onCreateView(LayoutInflater inflater , final ViewGroup container , Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_crime , container , false);
         mTitleField = (EditText)v.findViewById(R.id.crime_title);
+        mTitleField.setText(mCrime.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence c, int start, int count, int after) {
@@ -51,6 +67,7 @@ mCrime.setTitle(c.toString());
         mDateButton.setEnabled(false);
 
         mSolvedCheckBox = (CheckBox)v.findViewById(R.id.crime_solved);          //Чек бокс для проверки раскрыто ли преступление
+        mSolvedCheckBox.setChecked(mCrime.isSolved());
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
